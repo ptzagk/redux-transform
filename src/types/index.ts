@@ -53,7 +53,7 @@ export interface AsyncProcessInput<S, A extends Redux.Action> extends BaseProces
     transformerMap: TransformerMap<S, A>;
 }
 
-export type ProcessOutput<A extends Redux.Action> = A | Error;
+export type ProcessOutput<A extends Action> = A | Error;
 
 export interface ErrorActionHelp<A extends Redux.Action, T extends keyof A> {
     __reduxTransformError__: boolean;

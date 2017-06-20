@@ -7,10 +7,9 @@
         "strictNullChecks": true,
         "noEmitOnError": true,
         "baseUrl": "src",
-        "module": "commonjs",
         "target": "es5",
         "lib": [ "ES7", "DOM"],
         "jsx": "react"
     },
-    "include": [ "src/**/*" ]
+    "include": [ "tests/**/*" ]
 }

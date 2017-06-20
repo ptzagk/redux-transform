@@ -1,4 +1,4 @@
-import identity from "lodash-es/identity";
+import { identity } from "./utils/general";
 
 import * as types from "../types";
 
@@ -41,5 +41,8 @@ export default function asyncProcess<S, A extends types.Action>({
 
     return Promise.all(getFieldResults())
         .then(getTransformedFields)
+        .then((transformedFields) => {
+            return Object.assign({}, action, transformedFields);
+        })
         .catch(identity);
     }
