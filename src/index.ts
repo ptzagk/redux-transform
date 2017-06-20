@@ -6,5 +6,5 @@ export {
     SyncTransformer,
     SyncTransformerMap,
     TransformerMap,
-    TransformAction
+    TransformAction,
 } from "./types";

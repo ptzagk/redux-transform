@@ -13,13 +13,12 @@ export interface TransformerInput<S, A extends Redux.Action, K extends keyof A> 
 }
 
 export type SyncTransformer<S, A extends Redux.Action, K extends keyof A> = (
-    input: TransformerInput<S, A, K>
+    input: TransformerInput<S, A, K>,
 ) => A[K];
 
 export type AsyncTransformer<S, A extends Redux.Action, K extends keyof A> = (
-    input: TransformerInput<S, A, K>
+    input: TransformerInput<S, A, K>,
 ) => Promise<A[K]>;
-
 
 export type Transformer<S, A extends Redux.Action, K extends keyof A> =
     SyncTransformer<S, A, K> | AsyncTransformer<S, A, K>;
@@ -35,6 +34,11 @@ export type TransformerMap<S, A extends Redux.Action> = {
 export type TransformedFields<A extends Redux.Action> = {
     [K in keyof A]?: A[K];
 }
+;
+export interface FieldResult<A extends Action, K extends keyof A> {
+    fieldKey: K;
+    value: A[K];
+}
 
 export interface BaseProcessInput<S, A extends Redux.Action> {
     action: A;
@@ -49,6 +53,8 @@ export interface AsyncProcessInput<S, A extends Redux.Action> extends BaseProces
     transformerMap: TransformerMap<S, A>;
 }
 
+export type ProcessOutput<A extends Redux.Action> = A | Error;
+
 export interface ErrorActionHelp<A extends Redux.Action, T extends keyof A> {
     __reduxTransformError__: boolean;
     type: A[T];
@@ -58,5 +64,3 @@ export interface ErrorActionHelp<A extends Redux.Action, T extends keyof A> {
 export type ErrorAction<A extends Redux.Action> = ErrorActionHelp<A, "type">;
 
 export type TransformAction<A extends Redux.Action> = A | ErrorAction<A>;
-
-// export type ProcessOutput<A extends Redux.Action> = TransformAction;

@@ -1,15 +1,18 @@
 import * as Redux from "redux";
 
-import * as types form "../../types";
+import * as types from "../../types";
 
-
-export function generateErrorAction<A extends types.Action>(error: Error): types.ErrorAction<A> {
+export function generateErrorAction<A extends Redux.Action>(
+    action: A,
+    error: Error,
+): types.ErrorAction<A> {
     return {
         error,
+        __reduxTransformError__: true,
         type: action.type,
-    }
+    };
 }
 
-export function isError<A extends Redux.Action>(action: types.TransformAction<A>): action is types.ErrorAction<A> {
-    return (action as ErrorAction<A>).__reduxTransformError__ !== undefined;
+export function isError<A extends types.Action>(action: types.TransformAction<A>): action is types.ErrorAction<A> {
+    return (action as types.ErrorAction<A>).__reduxTransformError__ !== undefined;
 }
