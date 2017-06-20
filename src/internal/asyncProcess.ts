@@ -1,49 +1,50 @@
+import { generateErrorAction } from "./utils/error";
+
 import * as types from "../types";
 
-export interface FieldResult {
-    fieldKey: string;
-    val: any;
+export interface FieldResult<A extends types.Action, K extends keyof A> {
+    fieldKey: K;
+    value: A[K];
 }
 
 export default function asyncProcess<S, A extends types.Action>({
     state,
     action,
     transformerMap,
-}: types.AsyncProcessInput<S, A>): Promise<types.ProcessOutput<A>> {
+}: types.AsyncProcessInput<S, A>): Promise<types.TransformAction<A>> {
 
-    function getFieldResult<K extends keyof A>(
-        fieldKey: K,
-    ): Promise<FieldResult> {
+    function transformField<A extends types.Action, K extends keyof A>(
+        fieldKey: K
+    ): Promise<FieldResult<A,K>> {
         const transformers = transformerMap[fieldKey]!;
         const baseTransformerInput = { action, fieldKey, state };
-        return transformers.reduce((result, transformer) => {
-            return result.then((val: any) =>
-                transformer({ ...baseTransformerInput, field: val })
-            );
-        }, Promise.resolve(action[fieldKey]))
-        .then((val) => ({
-            fieldKey,
-            val
-        }));
+        const result = transformers.reduce((result, transformer) => {
+            return result.then((value) => {
+                return transformer({ ...baseTransformerInput, field: value });
+            })
+        }, Promise.resolve(action[fieldKey]));
+        return result.then((value) => ({ fieldKey, value }));
     }
 
-    function getTransformedFields(): Promise<FieldResult>[] {
-        const transformedFields = [];
+    function getFieldResults<A extends types.Action, K extends keyof A>(): Array<Promise<FieldResult<A, K>>> {
+        const transformedFields: Array<Promise<FieldResult<A, K>>> = [];
         for (const fieldKey of Object.keys(transformerMap)) {
-            transformedFields.push(getFieldResult(fieldKey));
+            transformedFields.push(transformField(fieldKey as K));
         }
         return transformedFields;
     }
 
-    return Promise.all(getTransformedFields())
-        .then((transformedFields) => {
-            const output = action;
-            for (const { fieldKey, val } of transformedFields) {
-                output[fieldKey] = val;
-            }
-            return output;
-        })
-        .catch((error) => {
-            return error;
-        });
+    function getTransformedFields<A extends types.Action, K extends keyof A>(
+        fieldResults: Array<FieldResult<A, K>>
+    ): types.TransformedFields<A> {
+        const transformedFields: types.TransformedFields<A> = {};
+        for (const { fieldKey, value } of fieldResults) {
+            transformedFields[fieldKey] = value;
+        }
+        return transformedFields;
+    }
+
+    return Promise.all(getFieldResults())
+        .then(getTransformedFields)
+        .catch(generateErrorAction)
     }

@@ -18,7 +18,7 @@ export function transform<S, A extends types.Action>({
     return Object.assign({}, action, transformation);
 }
 
-export interface ValidateSyncInput<S, A extends types.Action> {
+export interface TransformSyncInput<S, A extends types.Action> {
     action: A;
     transformerMap: types.SyncTransformerMap<S, A>;
 }
@@ -26,7 +26,7 @@ export interface ValidateSyncInput<S, A extends types.Action> {
 export function transformSync<S, A extends types.Action>({
     action,
     transformerMap,
-}: ValidateSyncInput<S, A>): A {
+}: TransformSyncInput<S, A>): A {
     const validation = {
         [asyncSymbol]: false,
         [transformerMapSymbol]: transformerMap,
