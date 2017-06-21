@@ -1,6 +1,4 @@
-import * as Redux from "redux";
-
-import { asyncSymbol, transformerMapSymbol } from "../symbols";
+import { transformerMapSymbol } from "../symbols";
 
 import * as types from "../../types";
 
