@@ -17,17 +17,17 @@ export function donate(name: string, amount: number): Donation {
     };
 }
 
-export interface Login extends Redux.Action {
+export interface Signup extends Redux.Action {
     name: string;
     password: string;
     confirm: string;
 }
 
-export function login(name: string, password: string, confirm: string): Login {
+export function signup(name: string, password: string, confirm: string): Signup {
     return {
         name,
         confirm,
         password,
-        type: "LOGIN",
+        type: "SIGNUP",
     };
 }

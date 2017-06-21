@@ -3,8 +3,8 @@ import * as Redux from "redux";
 import asyncProcess from "./asyncProcess";
 import { asyncSymbol, transformerMapSymbol } from "./symbols";
 import syncProcess from "./syncProcess";
-import { isTransformedAction } from "./utils/middleware";
 import { generateErrorAction } from "./utils/error";
+import { isTransformedAction } from "./utils/middleware";
 
 import * as types from "../types";
 
@@ -13,7 +13,7 @@ export default <S>(store: Redux.MiddlewareAPI<S>) => (next: Redux.Dispatch<S>) =
 
         function handleOutput(output: types.ProcessOutput<A>) {
             if (isTransformedAction(output)) {
-                next(output)
+                next(output);
             } else {
                 next(generateErrorAction(action, output));
             }

@@ -1,9 +1,9 @@
-import { Donation, Login } from "./actions";
+import { Donation, Signup } from "./actions";
 import { State } from "./state";
 
 import * as types from "../../../src/types";
 
-export const trim: types.SyncTransformer<State, Login | Donation, "name"> = ({
+export const trim: types.SyncTransformer<State, Signup | Donation, "name"> = ({
     field
 }) => {
     return field.trim()
@@ -20,8 +20,9 @@ export const matchDonationForCool: types.SyncTransformer<State, Donation, "amoun
      }
  }
 
- export const makeUnique: types.SyncTransformer<State, Login, "name"> = ({
+ export const makeUnique: types.SyncTransformer<State, Signup | Donation, "name"> = ({
      field,
+     action,
      state
  }) => {
      let uniqueName = field;

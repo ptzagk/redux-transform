@@ -3,7 +3,7 @@ export interface State {
 }
 
 const state: State = {
-    users: ["frankcool", "kiwi"],
+    users: ["gravyocean", "frankcool", "kiwi"],
 };
 
 export default state;

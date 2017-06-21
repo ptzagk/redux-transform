@@ -3,7 +3,8 @@ import "jest";
 import asyncProcess from "../../src/internal/asyncProcess";
 import { isTransformedAction } from "../../src/internal/utils/middleware";
 
-import { donate, Donation } from "./example/actions";
+import { randomName, delayedTrim } from "./example/asyncTransformers";
+import { donate, Donation, signup, Signup } from "./example/actions";
 import state, { State } from "./example/state";
 import {
     confused,
@@ -32,7 +33,7 @@ describe("asyncProcess", () => {
         expect(result).toEqual(action);
     });
 
-    test("returns transformed action given a non-empty transformerMap", async () => {
+    test("returns transformed action using only sync transformers", async () => {
         const action = donate("  frankcool  ", 1000);
 
         const transformerMap: types.SyncTransformerMap<State, Donation> = {
@@ -57,11 +58,65 @@ describe("asyncProcess", () => {
         expect(result).toEqual(transformedAction);
     });
 
+    test("returns transformed action using only sync transformers", async () => {
+        const action = signup("  random  ", " lovelytree  ", " lovelytree  ");
+
+        const transformerMap: types.TransformerMap<State, Signup> = {
+            name: [delayedTrim, randomName],
+            password: [delayedTrim],
+            confirm: [delayedTrim]
+        };
+
+        const processInput = {
+            action,
+            state,
+            transformerMap,
+        };
+
+        const transformedAction = {
+            type: "SIGNUP",
+            name: "gravyocean",
+            password: "lovelytree",
+            confirm: "lovelytree",
+        }
+
+        const result = await asyncProcess(processInput);
+
+        expect(result).toEqual(transformedAction);
+    });
+
+    test("returns transformed action using only mixed transformers", async () => {
+        const action = signup("  random  ", " lovelytree  ", " lovelytree  ");
+
+        const transformerMap: types.TransformerMap<State, Signup> = {
+            name: [delayedTrim, randomName, makeUnique ],
+            password: [delayedTrim],
+            confirm: [delayedTrim]
+        };
+
+        const processInput = {
+            action,
+            state,
+            transformerMap,
+        };
+
+        const transformedAction = {
+            type: "SIGNUP",
+            name: "gravyoceanu",
+            password: "lovelytree",
+            confirm: "lovelytree",
+        }
+
+        const result = await asyncProcess(processInput);
+
+        expect(result).toEqual(transformedAction);
+    })
+
     test("external errors are handled gracefully", async () => {
         const action = donate("frank", 10);
 
         const transformerMap: types.SyncTransformerMap<State, Donation> = {
-            name: [confused],
+            name: [ confused ],
             amount: [matchDonationForCool],
         };
 

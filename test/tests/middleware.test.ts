@@ -4,9 +4,9 @@ import * as Redux from "redux";
 import reduxTransform from "../../src/internal/middleware";
 import { transform, transformSync } from "../../src/internal/utils/public";
 
-import { donate, Donation, login, Login } from "./example/actions";
+import { donate, Donation, signup, Signup } from "./example/actions";
 import getError from "./example/getError";
-// import { approved, poetic } from "./example/asyncValidators";
+import { randomName, delayedTrim } from "./example/asyncTransformers";
 import state, { State } from "./example/state";
 import {
     confused,
@@ -57,7 +57,7 @@ describe("middleware", () => {
                 type: "DONATE",
                 name: "frankcoolu",
                 amount: 2000,
-            };
+            }
 
             reduxTransform(store)(next)(transformedAction);
 
@@ -93,19 +93,21 @@ describe("middleware", () => {
             const store = getStore();
             const next = jest.fn();
 
-            const action = donate("  frankcool  ", 1000);
+            const action = signup("random", " lovelytree  ", " lovelytree  ");
 
-            const transformerMap: types.SyncTransformerMap<State, Donation> = {
-                name: [trim, makeUnique],
-                amount: [matchDonationForCool],
+            const transformerMap: types.TransformerMap<State, Signup> = {
+                name: [trim, randomName, makeUnique,],
+                password: [delayedTrim],
+                confirm: [delayedTrim]
             };
 
-            const transformedAction = transform({ action, transformerMap });
+            const transformedAction: types.Action = transform({ action, transformerMap });
 
             const expectedTransformedAction = {
-                type: "DONATE",
-                name: "frankcoolu",
-                amount: 2000,
+                type: "SIGNUP",
+                name: "gravyoceanu",
+                password: "lovelytree",
+                confirm: "lovelytree",
             };
 
             await reduxTransform(store)(next)(transformedAction);
@@ -117,19 +119,20 @@ describe("middleware", () => {
             const store = getStore();
             const next = jest.fn();
 
-            const action = donate("frank", 10);
+            const action = signup("frank", " lovelytree  ", " lovelytree  ");
 
-            const transformerMap: types.SyncTransformerMap<State, Donation> = {
-                name: [confused],
-                amount: [matchDonationForCool],
+            const transformerMap: types.TransformerMap<State, Signup> = {
+                name: [trim, randomName, makeUnique,],
+                password: [delayedTrim, confused],
+                confirm: [delayedTrim]
             };
 
-            const transformedAction = transform({ action, transformerMap });
+            const transformedAction: types.Action = transform({ action, transformerMap });
 
             await reduxTransform(store)(next)(transformedAction);
 
             expect(next).toHaveBeenCalledWith({
-                type: "DONATE",
+                type: "SIGNUP",
                 error: getError(),
                 __reduxTransformError__: true,
             });

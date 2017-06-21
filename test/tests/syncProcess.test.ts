@@ -34,7 +34,7 @@ describe("syncProcess", () => {
         const action = donate("  frankcool  ", 1000);
 
         const transformerMap: types.SyncTransformerMap<State, Donation> = {
-            name: [trim, makeUnique],
+            name: [ trim, makeUnique ],
             amount: [matchDonationForCool],
         };
 
