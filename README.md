@@ -1,6 +1,6 @@
 # Redux Transform
 
-[![Build Status](https://travis-ci.org/contrarian/redux-transform.svg?branch=master)](https://travis-ci.org/contrarian/redux-transform) [![codecov](https://codecov.io/gh/contrarian/redux-transform/branch/master/graph/badge.svg)](https://codecov.io/gh/contrarian/redux-transform) [![codebeat badge](https://codebeat.co/badges/9546d22d-60bf-4447-a77e-693dae34a62e)](https://codebeat.co/projects/github-com-contrarian-redux-transform-master)
+[![Build Status](https://travis-ci.org/contrarian/redux-transform.svg?branch=master)](https://travis-ci.org/contrarian/redux-transform) [![codecov](https://codecov.io/gh/contrarian/redux-transform/branch/master/graph/badge.svg)](https://codecov.io/gh/contrarian/redux-transform) [![codebeat badge](https://codebeat.co/badges/9546d22d-60bf-4447-a77e-693dae34a62e)](https://codebeat.co/projects/github-com-contrarian-redux-transform-master) [![npm version](https://badge.fury.io/js/redux-transform.svg)](https://badge.fury.io/js/redux-transform)
 
 Async friendly transformation middleware for Redux.
 
@@ -8,7 +8,8 @@ Async friendly transformation middleware for Redux.
 
 1. Gist
 2. API
-3. Examples
+3. Performance
+4. Examples
 
 # Gist
 
@@ -96,10 +97,12 @@ applyMiddleware(reduxTransform);
 
 ```transform``` specifies async transformations for an action
 
+When using ```transform```, you may freely mix sync and async transformations. The transformations for a given field are normalized, and will always be processed strictly left to right.
+
 ```typescript
-interface TransformInput<S, A extends types.Action> {
+interface TransformInput<S, A extends Redux.Action> {
     action: A;
-    transformerMap: types.TransformerMap<S, A>;
+    transformerMap: TransformerMap<S, A>;
 }
 
 transform<A extends Redux.Action>(input: TransformInput) => A;
@@ -110,9 +113,9 @@ transform<A extends Redux.Action>(input: TransformInput) => A;
 ```transformSync``` specifies sync transformations for an action
 
 ```typescript
-interface TransformSyncInput<S, A extends types.Action> {
+interface TransformSyncInput<S, A extends Redux.Action> {
     action: A;
-    transformerMap: types.SyncTransformerMap<S, A>;
+    transformerMap: SyncTransformerMap<S, A>;
 }
 
 transformSync<A extends Redux.Action>(input: TransformSyncInput) => A;
