@@ -1,8 +1,17 @@
 {
   "name": "redux-transform",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "Async friendly transformation middleware for Redux",
-  "main": "src",
+  "keywords": [
+    "javascript",
+    "typescript",
+    "redux",
+    "middleware",
+    "transform",
+    "async"  
+  ],
+  "main": "lib/index",
+  "typings": "lib/index",
   "scripts": {
     "build": "tsc",
     "lint": "tslint --fix --type-check -c tslint.json --project tsconfig.json",

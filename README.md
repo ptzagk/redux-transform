@@ -56,7 +56,7 @@ function withdrawal(target: string, amount: number): Transaction {
 
 ### Redux Transform will perform the transformations
 
-- If the transformation succeeds, the transformed action is passed to the next middleware 
+- If the transformation succeeds, the transformed action is passed to the next middleware
 - If the transformation fails, an error action is passed to the next middleware
 
 ### You use the ```isTransformErrorAction``` type guard to check for failure
@@ -133,7 +133,7 @@ isTransformErrorAction<A extends Redux.Action>(action: TransformAction<A>): acti
 
 - AsyncTransformer
 - SyncTransformer
-- SyncTransformerMap 
+- SyncTransformerMap
 - Transformer
 - TransformerMap
 - TransformAction

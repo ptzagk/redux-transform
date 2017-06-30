@@ -1,4 +1,4 @@
-import { isError } from "../../../src/internal/utils/error";
+import { isTransformErrorAction } from "../../../src/internal/utils/error";
 
 import { donate } from "../example/actions";
 
@@ -12,13 +12,13 @@ describe("error utils", () => {
                 __reduxTransformError__: true,
             };
 
-            expect(isError(errorAction)).toBe(true);
+            expect(isTransformErrorAction(errorAction)).toBe(true);
         });
 
         test("recognizes normal action", () => {
             const action = donate("sugarTrain10", 650);
 
-            expect(isError(action)).toBe(false);
+            expect(isTransformErrorAction(action)).toBe(false);
         })
     });
 });

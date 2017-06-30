@@ -1,6 +1,6 @@
 {
   "name": "redux-transform-ts-example",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "example application using redux-tsa for validation",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "react": "^15.6.0",
     "react-dom": "^15.6.0",
     "react-redux": "^5.0.5",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-transform": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "^7.0.31",

@@ -1,5 +1,5 @@
 
-import { isError, TransformAction } from "redux-transform";
+import { isTransformErrorAction, TransformAction } from "redux-transform";
 
 import { Transaction } from "actions/transaction";
 
@@ -36,7 +36,7 @@ export type Action = TransformAction<Transaction>;
 export default function accounts(state: Accounts = initialState, action: Action): Accounts {
     switch (action.type) {
         case "DEPOSIT":
-            if (isError(action)) {
+            if (isTransformErrorAction(action)) {
                 return state;
             } else {
                 return {
@@ -48,7 +48,7 @@ export default function accounts(state: Accounts = initialState, action: Action)
                 };
             }
         case "WITHDRAWAL":
-            if (isError(action)) {
+            if (isTransformErrorAction(action)) {
                 return state;
             } else {
                 return {

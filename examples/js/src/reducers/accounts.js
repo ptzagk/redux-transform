@@ -1,4 +1,4 @@
-import { isError } from "redux-transform";
+import { isTransformErrorAction } from "redux-transform";
 
 const initialState = {
     apple: {
@@ -22,7 +22,7 @@ const initialState = {
 export default function accounts(state = initialState, action) {
     switch (action.type) {
         case "DEPOSIT":
-            if (isError(action)) {
+            if (isTransformErrorAction(action)) {
                 return state;
             } else {
                 return {
@@ -34,7 +34,7 @@ export default function accounts(state = initialState, action) {
                 };
             }
         case "WITHDRAWAL":
-            if (isError(action)) {
+            if (isTransformErrorAction(action)) {
                 return state;
             } else {
                 return {
