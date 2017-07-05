@@ -8,8 +8,7 @@ Async friendly transformation middleware for Redux.
 
 1. Gist
 2. API
-3. Performance
-4. Examples
+3. Examples
 
 # Gist
 
