@@ -9,13 +9,13 @@ import { isTransformedAction } from "./utils/middleware";
 import * as types from "../types";
 
 export default <S>(store: Redux.MiddlewareAPI<S>) => (next: Redux.Dispatch<S>) =>
-    <A extends types.Action>(action: A) => {
+    <A extends types.AnyAction>(action: A): A | types.ErrorAction<A> | Promise<A | types.ErrorAction<A>> => {
 
         function handleOutput(output: types.ProcessOutput<A>) {
             if (isTransformedAction(output)) {
-                next(output);
+                return next(output);
             } else {
-                next(generateErrorAction(action, output));
+                return next(generateErrorAction(action, output));
             }
         }
 
@@ -29,9 +29,9 @@ export default <S>(store: Redux.MiddlewareAPI<S>) => (next: Redux.Dispatch<S>) =
             if (action[asyncSymbol]) {
                 return asyncProcess(processInput).then(handleOutput);
             } else {
-                handleOutput(syncProcess(processInput));
+                return handleOutput(syncProcess(processInput));
             }
         } else {
-            next(action);
+            return next(action);
         }
     };

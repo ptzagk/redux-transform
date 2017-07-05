@@ -101,7 +101,7 @@ describe("middleware", () => {
                 confirm: [delayedTrim]
             };
 
-            const transformedAction: types.Action = transform({ action, transformerMap });
+            const transformedAction: types.AnyAction = transform({ action, transformerMap });
 
             const expectedTransformedAction = {
                 type: "SIGNUP",
@@ -127,7 +127,7 @@ describe("middleware", () => {
                 confirm: [delayedTrim]
             };
 
-            const transformedAction: types.Action = transform({ action, transformerMap });
+            const transformedAction: types.AnyAction = transform({ action, transformerMap });
 
             await reduxTransform(store)(next)(transformedAction);
 

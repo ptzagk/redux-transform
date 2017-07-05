@@ -32,6 +32,6 @@ export const matchDonationForCool: types.SyncTransformer<State, Donation, "amoun
     return uniqueName;
  }
 
- export const confused: types.SyncTransformer<State, types.Action, string> = () => {
+ export const confused: types.SyncTransformer<State, types.AnyAction, string> = () => {
      return `${Symbol("there")}`;
  }

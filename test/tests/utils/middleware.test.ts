@@ -25,7 +25,7 @@ describe("middleware utils", () => {
                 password: [delayedTrim],
             };
 
-            const transformedAction: types.Action = transform({ action, transformerMap });
+            const transformedAction: types.AnyAction = transform({ action, transformerMap });
 
             expect(isTransformedAction(transformedAction)).toBe(true);
         });
@@ -38,7 +38,7 @@ describe("middleware utils", () => {
                 amount: [matchDonationForCool],
             };
 
-            const transformedAction: types.Action = transformSync({ action, transformerMap });
+            const transformedAction: types.AnyAction = transformSync({ action, transformerMap });
 
             expect(isTransformedAction(transformedAction)).toBe(true);
         });

@@ -2,13 +2,13 @@ import { identity } from "./utils/general";
 
 import * as types from "../types";
 
-export default function asyncProcess<S, A extends types.Action>({
+export default function asyncProcess<S, A extends types.AnyAction>({
     state,
     action,
     transformerMap,
 }: types.AsyncProcessInput<S, A>): Promise<types.ProcessOutput<A>> {
 
-    function transformField<A extends types.Action, K extends keyof A>(
+    function transformField<A extends types.AnyAction, K extends keyof A>(
         fieldKey: K,
     ): Promise<types.FieldResult<A , K>> {
         const transformers = transformerMap[fieldKey]!;
@@ -21,7 +21,7 @@ export default function asyncProcess<S, A extends types.Action>({
         return finalResult.then((value) => ({ fieldKey, value }));
     }
 
-    function getFieldResults<A extends types.Action, K extends keyof A>(): Array<Promise<types.FieldResult<A, K>>> {
+    function getFieldResults<A extends types.AnyAction, K extends keyof A>(): Array<Promise<types.FieldResult<A, K>>> {
         const transformedFields: Array<Promise<types.FieldResult<A, K>>> = [];
         for (const fieldKey of Object.keys(transformerMap)) {
             transformedFields.push(transformField(fieldKey as K));
@@ -29,7 +29,7 @@ export default function asyncProcess<S, A extends types.Action>({
         return transformedFields;
     }
 
-    function getTransformedFields<A extends types.Action, K extends keyof A>(
+    function getTransformedFields<A extends types.AnyAction, K extends keyof A>(
         FieldResults: Array<types.FieldResult<A, K>>,
     ): types.TransformedFields<A> {
         const transformedFields: types.TransformedFields<A> = {};

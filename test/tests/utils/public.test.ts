@@ -23,7 +23,7 @@ describe("public utils", () => {
             password: [delayedTrim],
         };
 
-        const transformedAction: types.Action = transform({ action, transformerMap });
+        const transformedAction: types.AnyAction = transform({ action, transformerMap });
 
         test("async is set to true", () => {
             expect(transformedAction[asyncSymbol]).toBe(true);
@@ -46,7 +46,7 @@ describe("public utils", () => {
             amount: [matchDonationForCool],
         };
 
-        const transformedAction: types.Action = transformSync({ action, transformerMap });
+        const transformedAction: types.AnyAction = transformSync({ action, transformerMap });
 
         test("async is set to false", () => {
             expect(transformedAction[asyncSymbol]).toBe(false);

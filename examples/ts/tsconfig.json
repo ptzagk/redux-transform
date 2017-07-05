@@ -6,6 +6,9 @@
         "strictNullChecks": false,
         "noEmitOnError": true,
         "baseUrl": "src",
+        "paths": {
+            "redux": ["node_modules/redux-next"]
+        },
         "module": "commonjs",
         "target": "es5",
         "lib": [ "ES7", "DOM"],

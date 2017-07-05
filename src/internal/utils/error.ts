@@ -10,10 +10,11 @@ export function generateErrorAction<A extends Redux.Action>(
         error,
         __reduxTransformError__: true,
         type: action.type,
+
     };
 }
 
-export function isTransformErrorAction<A extends types.Action>(
+export function isTransformErrorAction<A extends types.AnyAction>(
     action: types.TransformAction<A>,
 ): action is types.ErrorAction<A> {
     return (action as types.ErrorAction<A>).__reduxTransformError__ !== undefined;

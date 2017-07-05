@@ -1,8 +1,7 @@
 import * as Redux from "redux";
 
-export interface Action {
-    type: any;
-    [fieldKey: string]: any;
+export interface AnyAction extends Redux.Action {
+    [extraProps: string ]: any;
 }
 
 export interface TransformerInput<S, A extends Redux.Action, K extends keyof A> {
@@ -35,7 +34,7 @@ export type TransformedFields<A extends Redux.Action> = {
     [K in keyof A]?: A[K];
 }
 ;
-export interface FieldResult<A extends Action, K extends keyof A> {
+export interface FieldResult<A extends Redux.Action, K extends keyof A> {
     fieldKey: K;
     value: A[K];
 }
@@ -53,7 +52,7 @@ export interface AsyncProcessInput<S, A extends Redux.Action> extends BaseProces
     transformerMap: TransformerMap<S, A>;
 }
 
-export type ProcessOutput<A extends Action> = A | Error;
+export type ProcessOutput<A extends Redux.Action> = A | Error;
 
 export interface ErrorActionHelp<A extends Redux.Action, T extends keyof A> {
     __reduxTransformError__: boolean;

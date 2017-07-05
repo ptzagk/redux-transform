@@ -1,12 +1,12 @@
 import * as types from "../types";
 
-export default function syncProcess<S, A extends types.Action>({
+export default function syncProcess<S, A extends types.AnyAction>({
     state,
     action,
     transformerMap,
 }: types.SyncProcessInput<S, A>): types.ProcessOutput<A> {
 
-    function transformField<A extends types.Action, K extends keyof A>(fieldKey: K): A[K] {
+    function transformField<A extends types.AnyAction, K extends keyof A>(fieldKey: K): A[K] {
         const transformers = transformerMap[fieldKey]!;
         const baseTransformerInput = { action, fieldKey, state };
         return transformers.reduce((value, transformer) => {
@@ -14,7 +14,7 @@ export default function syncProcess<S, A extends types.Action>({
         }, action[fieldKey]);
     }
 
-    function getTransformedFields<A extends types.Action>(): types.TransformedFields<A> {
+    function getTransformedFields<A extends types.AnyAction>(): types.TransformedFields<A> {
         const transformedFields: types.TransformedFields<A> = {};
         for (const fieldKey of Object.keys(transformerMap)) {
             transformedFields[fieldKey] = transformField(fieldKey);
