@@ -8,7 +8,8 @@ Async friendly transformation middleware for Redux.
 
 1. Gist
 2. API
-3. Examples
+3. Complementary Libraries
+4. Examples
 
 # Gist
 
@@ -199,6 +200,10 @@ type ErrorAction<A extends Redux.Action> = ErrorActionHelp<A, "type">;
 
 type TransformAction<A extends Redux.Action> = A | ErrorAction<A>;
 ```
+# Complementary Libraries
+
+1. [Redux TSA](https://github.com/contrarian/redux-tsa): lets you validate the properties of an action in much the same way that Redux Transform lets transform the properties of an action. 
+
 # Examples
 
 An example application using Redux TSA:
